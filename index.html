@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+	  <title>Maskenpause</title>
+	  <link href="./favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	  <link href="./favicon.ico" rel="icon" type="image/x-icon" />
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <style>
+		  * {
+			  font-family: sans-serif;
+		  }
+		  h1 {
+			  font-size: 2.15em;
+			  text-align: center;
+			  padding-top: 30px;
+		  }
+		  h3 {
+		  	  text-align: center;
+		  }
+	  </style>
+  </head>
+  <body>
+	  <h1 id="text">Lade...</h1>
+	  <h3 id="next"></h3>
+
+  <script>
+	const times = ["08:15", "08:20", "09:05", "09:10", "10:05", "10:10", "10:55", "11:00", "11:55", "12:00", "12:45", "12:50", "14:15", "14:20", "15:00", "15:05", "15:50", "15:55", "16:35", "16:40", "17:20", "17:25", "18:05", "18:10"]
+	var i = 0
+	var state = 0
+	var countdownDate
+
+	function updateTime() {
+	    if (i >= times.length) return document.getElementById("text").innerText = "Die Schule ist vorbei..."
+		var now = new Date()
+	    date = new Date(now.getMonth() + 1 + " " + now.getDate() + ", " + now.getFullYear() + " " + times[i])
+		countdownDate = date.getTime()
+		document.getElementById("next").innerText = "Nächste Maskenpause: " + times[i]
+		i++
+	}
+
+	function countdown() {
+	  var now = new Date().getTime()
+	  var distance = countdownDate - now
+
+	  const hours = Math.floor(distance / (1000 * 60 * 60))
+	  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+	  const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+
+	  document.getElementById("text").innerText = "Die " + (state == 0 ? "nächste Maskenpause ist" : "Maskenpause endet") + " in " + (hours != 0 ? hours + " Stunden " : " ") + (minutes != 0 ? minutes + " Minuten " : " ") + seconds + " Sekunden"
+
+	  if (distance <= -300000) {
+		updateTime()
+		setTimeout(countdown, 8)
+	  } else if (distance < 0) {
+		document.getElementById("text").innerHTML = "<b>Es ist Maskenpause!</b>"
+		state = 1
+		updateTime()
+		setTimeout(countdown, 180000)
+		setTimeout(function() {
+			state = 0
+		}, 300000)
+	  } else {
+		setTimeout(countdown, 1000)
+	  }
+	}
+
+	updateTime()
+	countdown()
+  </script>
+</body>
+</html>
