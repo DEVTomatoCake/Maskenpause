@@ -34,6 +34,8 @@
 	    if (i >= times.length) return document.getElementById("text").innerText = "Die Schule ist vorbei..."
 		var now = new Date()
 	    date = new Date(now.getMonth() + 1 + " " + now.getDate() + ", " + now.getFullYear() + " " + times[i])
+		console.log(now.getMonth() + 1 + " " + now.getDate() + ", " + now.getFullYear() + " " + times[i])
+		console.log(date)
 		countdownDate = date.getTime()
 		document.getElementById("next").innerText = "Nächste Maskenpause: " + times[i]
 		i++
